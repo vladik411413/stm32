@@ -45,7 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint32_t time = 0;
+uint32_t time = 3000;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -185,7 +185,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  HAL_Delay(100);
-	  time++;
+	  time--;
     /* USER CODE BEGIN 3 */
   }
 
