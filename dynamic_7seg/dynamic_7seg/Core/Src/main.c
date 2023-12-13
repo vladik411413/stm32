@@ -34,7 +34,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+uint16_t pulse=0;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -56,7 +56,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void segchar (uint8_t seg){
+void segchar (uint32_t seg){
         switch (seg)
         {
                 case 1:
@@ -173,7 +173,6 @@ int main(void)
   HAL_TIM_OC_Start_IT(&htim4,TIM_CHANNEL_2);
   HAL_TIM_OC_Start_IT(&htim4,TIM_CHANNEL_3);
   HAL_TIM_OC_Start_IT(&htim4,TIM_CHANNEL_4);
-  LL_RTC_EnableIT_SEC(&hrtc);
 
   /* USER CODE END 2 */
 
@@ -183,7 +182,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  HAL_Delay(1);
     /* USER CODE BEGIN 3 */
   }
 
@@ -239,7 +238,6 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
 
 	//if ( htim->Instance == TIM4){}
-		uint16_t pulse;
 
 		if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 		{
@@ -252,7 +250,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1, (pulse + 25));
 			}
 			else{
-				GPIOA->BSRR =0x00FE0000;
+				GPIOA->BSRR = 0x00FE0000;
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1, 0);
 			}
 
@@ -271,7 +269,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_2, (pulse + 25));
 			}
 			else{
-				GPIOA->BSRR =0x00FE0000;
+				GPIOA->BSRR = 0x00FE0000;
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_2, 31);
 			}
 		}
@@ -288,7 +286,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_3, (pulse + 25));
 			}
 			else{
-				GPIOA->BSRR =0x00FE0000;
+				GPIOA->BSRR = 0x00FE0000;
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_3, 63);
 			}
 		}
@@ -304,11 +302,15 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_4, (pulse + 25));
 			}
 			else{
-				GPIOA->BSRR =0x00FE0000;
+				GPIOA->BSRR = 0x00FE0000;
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_4, 95);
 			}
 		}
 
+}
+
+void HAL_RTCEx_RTCEventCallback(RTC_HandleTypeDef *hrtc){
+	time=time+1;
 }
 /* USER CODE END 4 */
 

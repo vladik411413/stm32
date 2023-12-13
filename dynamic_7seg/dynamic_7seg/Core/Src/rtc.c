@@ -38,7 +38,6 @@ void MX_RTC_Init(void)
   RTC_DateTypeDef DateToUpdate = {0};
 
   /* USER CODE BEGIN RTC_Init 1 */
-
   /* USER CODE END RTC_Init 1 */
 
   /** Initialize RTC Only
@@ -52,7 +51,6 @@ void MX_RTC_Init(void)
   }
 
   /* USER CODE BEGIN Check_RTC_BKUP */
-
   /* USER CODE END Check_RTC_BKUP */
 
   /** Initialize RTC and set the Time and Date
@@ -75,7 +73,7 @@ void MX_RTC_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN RTC_Init 2 */
-
+  HAL_RTCEx_SetSecond_IT(&hrtc);
   /* USER CODE END RTC_Init 2 */
 
 }
