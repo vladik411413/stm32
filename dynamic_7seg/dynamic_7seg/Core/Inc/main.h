@@ -73,33 +73,33 @@ void Error_Handler(void);
 #define G_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
-#define SA_SET HAL_GPIO_WritePin(GPIOA, A_Pin, GPIO_PIN_SET)
+#define SA_SET GPIOA->BSRR = GPIO_PIN_1
 
-#define SA_RESET HAL_GPIO_WritePin(GPIOA, A_Pin, GPIO_PIN_RESET)
+#define SA_RESET GPIOA->BSRR = (uint32_t)GPIO_PIN_1 << 16u
 
-#define SB_SET HAL_GPIO_WritePin(GPIOA, B_Pin, GPIO_PIN_SET)
+#define SB_SET GPIOA->BSRR = GPIO_PIN_2
 
-#define SB_RESET HAL_GPIO_WritePin(GPIOA, B_Pin, GPIO_PIN_RESET)
+#define SB_RESET GPIOA->BSRR = (uint32_t)GPIO_PIN_2 << 16u
 
-#define SC_SET HAL_GPIO_WritePin(GPIOA, C_Pin, GPIO_PIN_SET)
+#define SC_SET GPIOA->BSRR = GPIO_PIN_3
 
-#define SC_RESET HAL_GPIO_WritePin(GPIOA, C_Pin, GPIO_PIN_RESET)
+#define SC_RESET GPIOA->BSRR = (uint32_t)GPIO_PIN_3 << 16u
 
-#define SD_SET HAL_GPIO_WritePin(GPIOA, D_Pin, GPIO_PIN_SET)
+#define SD_SET GPIOA->BSRR = GPIO_PIN_4
 
-#define SD_RESET HAL_GPIO_WritePin(GPIOA, D_Pin, GPIO_PIN_RESET)
+#define SD_RESET GPIOA->BSRR = (uint32_t)GPIO_PIN_4 << 16u
 
-#define SE_SET HAL_GPIO_WritePin(GPIOA, E_Pin, GPIO_PIN_SET)
+#define SE_SET GPIOA->BSRR = GPIO_PIN_5
 
-#define SE_RESET HAL_GPIO_WritePin(GPIOA, E_Pin, GPIO_PIN_RESET)
+#define SE_RESET GPIOA->BSRR = (uint32_t)GPIO_PIN_5 << 16u
 
-#define SF_SET HAL_GPIO_WritePin(GPIOA, F_Pin, GPIO_PIN_SET)
+#define SF_SET GPIOA->BSRR = GPIO_PIN_6
 
-#define SF_RESET HAL_GPIO_WritePin(GPIOA, F_Pin, GPIO_PIN_RESET)
+#define SF_RESET GPIOA->BSRR = (uint32_t)GPIO_PIN_6 << 16u
 
-#define SG_SET HAL_GPIO_WritePin(GPIOA, G_Pin, GPIO_PIN_SET)
+#define SG_SET GPIOA->BSRR = GPIO_PIN_7
 
-#define SG_RESET HAL_GPIO_WritePin(GPIOA, G_Pin, GPIO_PIN_RESET)
+#define SG_RESET GPIOA->BSRR = (uint32_t)GPIO_PIN_7 << 16u
 
 /* USER CODE END Private defines */
 

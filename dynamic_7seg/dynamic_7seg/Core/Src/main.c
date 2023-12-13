@@ -45,7 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint32_t time = 3000;
+uint32_t time = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -60,62 +60,62 @@ void segchar (uint8_t seg){
         switch (seg)
         {
                 case 1:
-
-                        SA_RESET;SB_SET;SC_SET;SD_RESET;SE_RESET;SF_RESET;SG_RESET;
+                		GPIOA->BSRR = 0x00F2000C;
+                        //SA_RESET;SB_SET;SC_SET;SD_RESET;SE_RESET;SF_RESET;SG_RESET;
 
                         break;
 
                 case 2:
-
-                        SA_SET;SB_SET;SC_RESET;SD_SET;SE_SET;SF_RESET;SG_SET;
+                		GPIOA->BSRR = 0x004800B6;
+                        //SA_SET;SB_SET;SC_RESET;SD_SET;SE_SET;SF_RESET;SG_SET;
 
                         break;
 
                 case 3:
-
-                        SA_SET;SB_SET;SC_SET;SD_SET;SE_RESET;SF_RESET;SG_SET;
+                		GPIOA->BSRR = 0x0060009E;
+                        //SA_SET;SB_SET;SC_SET;SD_SET;SE_RESET;SF_RESET;SG_SET;
 
                         break;
 
                 case 4:
-
-                        SA_RESET;SB_SET;SC_SET;SD_RESET;SE_RESET;SF_SET;SG_SET;
+                		GPIOA->BSRR = 0x003200CC;
+                        //SA_RESET;SB_SET;SC_SET;SD_RESET;SE_RESET;SF_SET;SG_SET;
 
                         break;
 
                 case 5:
-
-                        SA_SET;SB_RESET;SC_SET;SD_SET;SE_RESET;SF_SET;SG_SET;
+                		GPIOA->BSRR = 0x002400DA;
+                        //SA_SET;SB_RESET;SC_SET;SD_SET;SE_RESET;SF_SET;SG_SET;
 
                         break;
 
                 case 6:
-
-                        SA_SET;SB_RESET;SC_SET;SD_SET;SE_SET;SF_SET;SG_SET;
+                		GPIOA->BSRR = 0x00400FA;
+                        //SA_SET;SB_RESET;SC_SET;SD_SET;SE_SET;SF_SET;SG_SET;
 
                         break;
 
                 case 7:
-
-                        SA_SET;SB_SET;SC_SET;SD_RESET;SE_RESET;SF_RESET;SG_RESET;
+                		GPIOA->BSRR = 0x00F0000E;
+                        //SA_SET;SB_SET;SC_SET;SD_RESET;SE_RESET;SF_RESET;SG_RESET;
 
                         break;
 
                 case 8:
-
-                        SA_SET;SB_SET;SC_SET;SD_SET;SE_SET;SF_SET;SG_SET;
+                		GPIOA->BSRR = 0x000000FE;
+                        //SA_SET;SB_SET;SC_SET;SD_SET;SE_SET;SF_SET;SG_SET;
 
                         break;
 
                 case 9:
-
-                        SA_SET;SB_SET;SC_SET;SD_SET;SE_RESET;SF_SET;SG_SET;
+                		GPIOA->BSRR = 0x002000DE;
+                        //SA_SET;SB_SET;SC_SET;SD_SET;SE_RESET;SF_SET;SG_SET;
 
                         break;
 
                 case 0:
-
-                        SA_SET;SB_SET;SC_SET;SD_SET;SE_SET;SF_SET;SG_RESET;
+                		GPIOA->BSRR = 0x0080007E;
+                        //SA_SET;SB_SET;SC_SET;SD_SET;SE_SET;SF_SET;SG_RESET;
 
                         break;
         }
@@ -154,7 +154,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -166,7 +165,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_RTC_Init();
+  HAL_RTC_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   //interrupt handling start
@@ -174,7 +173,7 @@ int main(void)
   HAL_TIM_OC_Start_IT(&htim4,TIM_CHANNEL_2);
   HAL_TIM_OC_Start_IT(&htim4,TIM_CHANNEL_3);
   HAL_TIM_OC_Start_IT(&htim4,TIM_CHANNEL_4);
-
+  LL_RTC_EnableIT_SEC(&hrtc);
 
   /* USER CODE END 2 */
 
@@ -184,8 +183,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  HAL_Delay(100);
-	  time--;
     /* USER CODE BEGIN 3 */
   }
 
@@ -255,7 +252,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1, (pulse + 25));
 			}
 			else{
-				SA_RESET;SB_RESET;SC_RESET;SD_RESET;SE_RESET;SF_RESET;SG_RESET;
+				GPIOA->BSRR =0x00FE0000;
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1, 0);
 			}
 
@@ -274,7 +271,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_2, (pulse + 25));
 			}
 			else{
-				SA_RESET;SB_RESET;SC_RESET;SD_RESET;SE_RESET;SF_RESET;SG_RESET;
+				GPIOA->BSRR =0x00FE0000;
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_2, 31);
 			}
 		}
@@ -291,7 +288,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_3, (pulse + 25));
 			}
 			else{
-				SA_RESET;SB_RESET;SC_RESET;SD_RESET;SE_RESET;SF_RESET;SG_RESET;
+				GPIOA->BSRR =0x00FE0000;
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_3, 63);
 			}
 		}
@@ -307,7 +304,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_4, (pulse + 25));
 			}
 			else{
-				SA_RESET;SB_RESET;SC_RESET;SD_RESET;SE_RESET;SF_RESET;SG_RESET;
+				GPIOA->BSRR =0x00FE0000;
 				__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_4, 95);
 			}
 		}
