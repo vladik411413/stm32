@@ -165,7 +165,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  HAL_RTC_Init();
+  MX_RTC_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   //interrupt handling start
@@ -183,6 +183,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
 
@@ -231,7 +232,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-
 }
 
 /* USER CODE BEGIN 4 */
