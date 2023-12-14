@@ -1,17 +1,20 @@
+#include "main.h"
+
 #ifndef INC_LCD_CONFIG_H_
 #define INC_LCD_CONFIG_H_
 
 /* CONFIG FOR LIBRARY USER */
-#define GPIO_PORT GPIOC
+#define GPIO_PORT GPIOA
+#define GPIO_PORT578 GPIOB
 
 //4 pin mode -> pins
-#define DATA5_Pin GPIO_PIN_5
-#define DATA6_Pin GPIO_PIN_6
-#define DATA7_Pin GPIO_PIN_7
-#define DATA8_Pin GPIO_PIN_8
+#define DATA5_Pin d4_Pin
+#define DATA6_Pin d5_Pin
+#define DATA7_Pin d6_Pin
+#define DATA8_Pin d7_Pin
 
-#define RS_Pin GPIO_PIN_9
-#define E_Pin  GPIO_PIN_10
+#define RS_Pin rs_Pin
+#define E_Pin  e_Pin
 //RW Pin not used,connect to GND
 
 //if you want to work with 8 bit mode uncomment the area which is given below
