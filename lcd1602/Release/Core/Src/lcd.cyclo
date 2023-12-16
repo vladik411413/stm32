@@ -1,0 +1,10 @@
+../Core/Src/lcd.c:22:14:send4Bits	1
+../Core/Src/lcd.c:33:13:sendCommand	1
+../Core/Src/lcd.c:39:13:sendData	1
+../Core/Src/lcd.c:45:6:clearLCD	1
+../Core/Src/lcd.c:50:6:putLCD	1
+../Core/Src/lcd.c:54:6:writeLCD	2
+../Core/Src/lcd.c:60:6:initLCD	1
+../Core/Src/lcd.c:89:6:setCursor	1
+../Core/Src/lcd.c:104:6:cursorOn	1
+../Core/Src/lcd.c:108:6:blinkOn	1
