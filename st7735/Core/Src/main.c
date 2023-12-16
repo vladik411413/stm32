@@ -24,6 +24,7 @@
 #include "st7735.h"
 #include <string.h>
 #include "fonts.h"
+#include <stdlib.h>
 //#include "testimg.h"
 /* USER CODE END Includes */
 
@@ -48,7 +49,8 @@ RTC_HandleTypeDef hrtc;
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-
+uint32_t time = 0;
+char stime[4];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,14 +103,18 @@ int main(void)
   ST7735_FillScreen(ST7735_BLACK);
   ST7735_WriteString(0, 0, "  Zhenya     miss2005     you are   a miracle) ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
   /* USER CODE END 2 */
+  HAL_Delay(1000);
+  ST7735_FillScreen(ST7735_BLACK);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-    /* USER CODE BEGIN 3 */
 
-	  HAL_Delay(1000);
+    /* USER CODE BEGIN 3 */
+	  itoa(time, stime, 10);
+	  ST7735_WriteString(20, 20, stime, Font_16x26, ST7735_WHITE, ST7735_BLACK);
+	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }
@@ -213,7 +219,7 @@ static void MX_RTC_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN RTC_Init 2 */
-
+  HAL_RTCEx_SetSecond_IT(&hrtc);
   /* USER CODE END RTC_Init 2 */
 
 }
@@ -241,7 +247,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -291,7 +297,9 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_RTCEx_RTCEventCallback(RTC_HandleTypeDef *hrtc){
+	time=time+1;
+}
 /* USER CODE END 4 */
 
 /**
