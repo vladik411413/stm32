@@ -22,6 +22,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "st7735.h"
+#include <string.h>
+#include "fonts.h"
+//#include "testimg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -104,14 +107,11 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_RTC_Init();
+  MX_RTC_Init();
   MX_SPI1_Init();
   //MX_USB_PCD_Init();
   /* USER CODE BEGIN 2 */
-  ST7735_Init(0);
-  fillScreen(BLACK);
-  testAll();
-  HAL_Delay(1000);
+  ST7735_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -119,26 +119,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  ST7735_SetRotation(0);
-	  ST7735_WriteString(0, 0, "HELLO", Font_11x18, RED,BLACK);
-	  HAL_Delay(1000);
-	  fillScreen(BLACK);
+	    ST7735_FillScreen(ST7735_BLACK);
+	    HAL_Delay(3000);
 
-	  ST7735_SetRotation(1);
-	  ST7735_WriteString(0, 0, "WORLD", Font_11x18, GREEN,BLACK);
-	  HAL_Delay(1000);
-	  fillScreen(BLACK);
+	    ST7735_FillScreen(ST7735_BLACK);
+	    ST7735_WriteString(0, 0, "BLACK", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+	    HAL_Delay(500);
 
-	  ST7735_SetRotation(2);
-	  ST7735_WriteString(0, 0, "FROM", Font_11x18, BLUE,BLACK);
-	  HAL_Delay(1000);
-	  fillScreen(BLACK);
-
-	  ST7735_SetRotation(3);
-	  ST7735_WriteString(0, 0, "ControllersTech", Font_16x26, YELLOW,BLACK);
-	  HAL_Delay(1000);
-	  fillScreen(BLACK);
-	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -337,16 +324,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8
+                          |GPIO_PIN_9, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PB5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PB6 PB7 PB8 PB9 */
-  GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
+  /*Configure GPIO pins : PB5 PB6 PB7 PB8
+                           PB9 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8
+                          |GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
