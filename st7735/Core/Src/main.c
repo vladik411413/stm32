@@ -98,7 +98,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_Delay(1000);
   ST7735_Init();
-  HAL_Delay(1000);
+  ST7735_FillScreen(ST7735_BLACK);
+  ST7735_WriteString(0, 0, "  Zhenya     miss2005     you are   a miracle) ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -106,12 +107,8 @@ int main(void)
   {
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
-	  ST7735_FillScreen(ST7735_BLACK);
-	  HAL_Delay(100);
-	  ST7735_WriteString(0, 0, "Женя, ты крутая!", Font_RUS, ST7735_WHITE, ST7735_BLACK);
-	  ST7735_WriteString(0, 3*10, "Font_11x18, green, lorem ipsum", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-	  ST7735_WriteString(0, 3*10+3*18, "Font_16x26", Font_16x26, ST7735_WHITE, ST7735_BLACK);
-	 HAL_Delay(1000);
+
+	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
