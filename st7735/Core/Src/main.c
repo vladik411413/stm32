@@ -57,7 +57,9 @@ uint32_t t = 0;
 uint32_t info;
 uint16_t x=0;
 uint16_t y=0;
-char tstr[32]={0,};
+uint16_t dotx=60;
+uint16_t doty=60;
+char tstr[32];
 char str[32];
 char cr1[3]="CR1";
 char cr2[3]="CR2";
@@ -135,12 +137,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	ST7735_FillRectangle(x,y,5,5,ST7735_BLACK);
+	ST7735_FillRectangle(dotx,doty,5,5,ST7735_BLACK);
+	//ST7735_WriteString(dotx,doty, "@", Font_16x26, ST7735_BLACK, ST7735_BLACK);
 	x=ADC1->JDR1;
-	x = x/27;
 	y=ADC1->JDR2;
-	y = y/33;
-	ST7735_FillRectangle(x,y,5,5,ST7735_WHITE);
+	if((y>2100)&(doty<110)){doty+=(y-2100)/300;}
+	if((y<1900)&(doty>10)){doty+=(y-1900)/300;}
+	if((x>2100)&(dotx<150)){dotx+=(x-2100)/300;}
+	if((x<1900)&(dotx>10)){dotx+=(x-1900)/300;}
+	//ST7735_WriteString(dotx, doty, "@", Font_16x26, ST7735_WHITE, ST7735_BLACK);
+	ST7735_FillRectangle(dotx,doty,5,5,ST7735_WHITE);
 	itoa(x, tstr, 10);
 	ST7735_WriteString(0, 15, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 	itoa(y, tstr, 10);
