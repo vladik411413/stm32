@@ -151,6 +151,12 @@ int main(void)
 	ST7735_WriteString(0, 15, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 	itoa(y, tstr, 10);
 	ST7735_WriteString(0, 25, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+	if((GPIOA->IDR)&(SW_Pin)){
+		ST7735_WriteString(0, 60, "ON ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+	}
+	else{
+		ST7735_WriteString(0, 60, "OFF", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+	}
 	HAL_Delay(100);
 	/*
 	  itoa(t, tstr, 10);
