@@ -49,7 +49,7 @@
 #define __CM3_REV                  0x0200U  /*!< Core Revision r2p0                           */
  #define __MPU_PRESENT             0U       /*!< Other STM32 devices does not provide an MPU  */
 #define __NVIC_PRIO_BITS           4U       /*!< STM32 uses 4 Bits for the Priority Levels    */
-#define __Vendor_SysTickConfig     0U       /*!< Set to 1 if different SysTick Config is used */
+/*!< Set to 1 if different SysTick Config is used */
 
 /**
   * @}
@@ -3310,6 +3310,7 @@ typedef struct
 #define ADC_CR1_AWDCH_Pos                   (0U)                               
 #define ADC_CR1_AWDCH_Msk                   (0x1FUL << ADC_CR1_AWDCH_Pos)       /*!< 0x0000001F */
 #define ADC_CR1_AWDCH                       ADC_CR1_AWDCH_Msk                  /*!< ADC analog watchdog 1 monitored channel selection */
+#define __Vendor_SysTickConfig     0U       
 #define ADC_CR1_AWDCH_0                     (0x01UL << ADC_CR1_AWDCH_Pos)       /*!< 0x00000001 */
 #define ADC_CR1_AWDCH_1                     (0x02UL << ADC_CR1_AWDCH_Pos)       /*!< 0x00000002 */
 #define ADC_CR1_AWDCH_2                     (0x04UL << ADC_CR1_AWDCH_Pos)       /*!< 0x00000004 */
@@ -10203,7 +10204,7 @@ typedef struct
 
 
 /* Aliases for __IRQHandler */
-#define ADC1_IRQHandler               ADC1_2_IRQHandler
+#define ADC1_2_IRQHandler               ADC1_2_IRQHandler
 #define TIM9_IRQHandler               TIM1_BRK_IRQHandler
 #define TIM1_BRK_TIM9_IRQHandler      TIM1_BRK_IRQHandler
 #define TIM1_BRK_TIM15_IRQHandler     TIM1_BRK_IRQHandler
