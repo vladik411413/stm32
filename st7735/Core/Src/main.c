@@ -55,7 +55,8 @@ TIM_HandleTypeDef htim1;
 /* USER CODE BEGIN PV */
 uint32_t t = 0;
 uint32_t info;
-uint32_t x,y;
+uint16_t x=0;
+uint16_t y=0;
 char tstr[32]={0,};
 char str[32];
 char cr1[3]="CR1";
@@ -112,8 +113,8 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  //HAL_NVIC_EnableIRQ(ADC1_IRQn);
   HAL_TIM_Base_Start_IT(&htim1);
+
   //DISPLAY INIT
   ST7735_Init();
   ST7735_FillScreen(ST7735_BLACK);
@@ -122,7 +123,9 @@ int main(void)
   ST7735_FillScreen(ST7735_BLACK);
 
   //ADC calibration
+  HAL_ADC_Stop(&hadc1);
   HAL_ADCEx_Calibration_Start(&hadc1);
+  HAL_ADC_Start(&hadc1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -132,9 +135,18 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	ST7735_FillRectangle(x,y,5,5,ST7735_BLACK);
 	x=ADC1->JDR1;
+	x = x/27;
 	y=ADC1->JDR2;
-
+	y = y/33;
+	ST7735_FillRectangle(x,y,5,5,ST7735_WHITE);
+	itoa(x, tstr, 10);
+	ST7735_WriteString(0, 15, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+	itoa(y, tstr, 10);
+	ST7735_WriteString(0, 25, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+	HAL_Delay(100);
+	/*
 	  itoa(t, tstr, 10);
 	  ST7735_WriteString(0, 5, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 
@@ -158,9 +170,7 @@ int main(void)
 	  info = ADC1->JSQR;
 	  itoa(info, str, 16);
 	  ST7735_WriteString(0, 100, str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
-
-
-	  HAL_Delay(100);
+	*/
 
   }
   /* USER CODE END 3 */
@@ -504,16 +514,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 	//then wait ConvCpltCallback (EOCIE is set in MX_ADC1_Init)
 }
-/*
+
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc1){
 	t=4444;
 	x=ADC1->JDR1;
 	y=ADC1->JDR2;
-	ADC1->SR&=~(ADC_SR_JEOC); //clear bit JEOC: Injected channel end of conversion
-	ADC1->SR&=~(ADC_SR_JSTRT);
-	ADC1->SR&=~(ADC_SR_EOC);
+	//ADC1->SR&=~(ADC_SR_JEOC); //clear bit JEOC: Injected channel end of conversion
+	//ADC1->SR&=~(ADC_SR_JSTRT);
+	//ADC1->SR&=~(ADC_SR_EOC);
 }
-*/
+
 /* USER CODE END 4 */
 
 /**
