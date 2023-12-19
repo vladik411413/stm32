@@ -137,14 +137,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	ST7735_FillRectangle(dotx,doty,5,5,ST7735_BLACK);
+	//ST7735_FillRectangle(dotx,doty,5,5,ST7735_BLACK);
 	//ST7735_WriteString(dotx,doty, "@", Font_16x26, ST7735_BLACK, ST7735_BLACK);
 	x=ADC1->JDR1;
 	y=ADC1->JDR2;
-	if((y>2100)&(doty<110)){doty+=(y-2100)/300;}
-	if((y<1900)&(doty>10)){doty+=(y-1900)/300;}
-	if((x>2100)&(dotx<150)){dotx+=(x-2100)/300;}
-	if((x<1900)&(dotx>10)){dotx+=(x-1900)/300;}
+	if((y>2100)&(doty<110)){doty+=(y-2100)/500;}
+	if((y<1900)&(doty>10)){doty+=(y-1900)/500;}
+	if((x>2100)&(dotx<150)){dotx+=(x-2100)/500;}
+	if((x<1900)&(dotx>10)){dotx+=(x-1900)/500;}
 	//ST7735_WriteString(dotx, doty, "@", Font_16x26, ST7735_WHITE, ST7735_BLACK);
 	ST7735_FillRectangle(dotx,doty,5,5,ST7735_WHITE);
 	itoa(x, tstr, 10);
@@ -152,12 +152,9 @@ int main(void)
 	itoa(y, tstr, 10);
 	ST7735_WriteString(0, 25, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 	if((GPIOA->IDR)&(SW_Pin)){
-		ST7735_WriteString(0, 60, "ON ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+		ST7735_FillScreen(ST7735_BLACK);
 	}
-	else{
-		ST7735_WriteString(0, 60, "OFF", Font_7x10, ST7735_WHITE, ST7735_BLACK);
-	}
-	HAL_Delay(100);
+	HAL_Delay(15);
 	/*
 	  itoa(t, tstr, 10);
 	  ST7735_WriteString(0, 5, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
