@@ -48,9 +48,9 @@ void MX_TIM1_Init(void)
 
   /* USER CODE BEGIN TIM1_Init 1 */
   /* USER CODE END TIM1_Init 1 */
-  TIM_InitStruct.Prescaler = 4096;
+  TIM_InitStruct.Prescaler = 15;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_CENTER_UP_DOWN;
-  TIM_InitStruct.Autoreload = 1023;
+  TIM_InitStruct.Autoreload = 31;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
   TIM_InitStruct.RepetitionCounter = 1;
   LL_TIM_Init(TIM1, &TIM_InitStruct);
@@ -59,9 +59,9 @@ void MX_TIM1_Init(void)
   TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_TOGGLE;
   TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
   TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
-  TIM_OC_InitStruct.CompareValue = 500;
+  TIM_OC_InitStruct.CompareValue = 300;
   TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
-  TIM_OC_InitStruct.OCNPolarity = LL_TIM_OCPOLARITY_HIGH;
+  TIM_OC_InitStruct.OCNPolarity = LL_TIM_OCPOLARITY_LOW;
   TIM_OC_InitStruct.OCIdleState = LL_TIM_OCIDLESTATE_LOW;
   TIM_OC_InitStruct.OCNIdleState = LL_TIM_OCIDLESTATE_LOW;
   LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH1, &TIM_OC_InitStruct);
@@ -75,7 +75,7 @@ void MX_TIM1_Init(void)
   TIM_BDTRInitStruct.LockLevel = LL_TIM_LOCKLEVEL_OFF;
   TIM_BDTRInitStruct.DeadTime = 0;
   TIM_BDTRInitStruct.BreakState = LL_TIM_BREAK_DISABLE;
-  TIM_BDTRInitStruct.BreakPolarity = LL_TIM_BREAK_POLARITY_HIGH;
+  TIM_BDTRInitStruct.BreakPolarity = LL_TIM_BREAK_POLARITY_LOW;
   TIM_BDTRInitStruct.AutomaticOutput = LL_TIM_AUTOMATICOUTPUT_DISABLE;
   LL_TIM_BDTR_Init(TIM1, &TIM_BDTRInitStruct);
   /* USER CODE BEGIN TIM1_Init 2 */

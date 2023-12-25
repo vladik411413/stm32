@@ -44,8 +44,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t idata = 42;  //example counter in main
-
+uint8_t idata = 0;  //example counter in main
+uint8_t k = 0;
+uint8_t t = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,12 +102,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //Timer settings
   TIM1->CR2|=TIM_CR1_URS; //Only counter overflow/underflow generates an update interrupt or DMA request
+  TIM1->DIER|=TIM_DIER_BIE;//Break iterrupt enable
   TIM1->DIER|=TIM_DIER_UIE;//Update interrupt enable
-  TIM1->CR2&=~TIM_CR2_OIS1; //OC1=0 idle state when MOE=0
-  TIM1->CR2&=~TIM_CR2_OIS2; //OC2=0 idle state when MOE=0
-  TIM1->CCER&=~TIM_CCER_CC1P; //1: OC1 active high
-  TIM1->CCER&=~TIM_CCER_CC2P; //1: OC1 active high
-  //TIM1->BDTR|=TIM_BDTR_LOCK; //LOCK POLARITY
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -114,8 +112,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  RFDA(idata);
-	  LL_mDelay(10000);
+	  for(k=0U;k<=5U;k++){
+	  RFDA(~(1<<k));
+	  LL_mDelay(1000);
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
