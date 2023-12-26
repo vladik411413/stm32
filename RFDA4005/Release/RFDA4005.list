@@ -442,56 +442,57 @@ Disassembly of section .text:
  80004dc:	60ab      	str	r3, [r5, #8]
  80004de:	2330      	movs	r3, #48	; 0x30
  80004e0:	e9cd 3412 	strd	r3, r4, [sp, #72]	; 0x48
- 80004e4:	f44f 7396 	mov.w	r3, #300	; 0x12c
- 80004e8:	e9cd 3415 	strd	r3, r4, [sp, #84]	; 0x54
- 80004ec:	2302      	movs	r3, #2
- 80004ee:	aa12      	add	r2, sp, #72	; 0x48
- 80004f0:	4628      	mov	r0, r5
- 80004f2:	e9cd 3417 	strd	r3, r4, [sp, #92]	; 0x5c
- 80004f6:	9414      	str	r4, [sp, #80]	; 0x50
- 80004f8:	9419      	str	r4, [sp, #100]	; 0x64
- 80004fa:	f000 f92d 	bl	8000758 <LL_TIM_OC_Init>
- 80004fe:	f8d7 3c18 	ldr.w	r3, [r7, #3096]	; 0xc18
- 8000502:	aa12      	add	r2, sp, #72	; 0x48
- 8000504:	f023 0304 	bic.w	r3, r3, #4
- 8000508:	4641      	mov	r1, r8
- 800050a:	f8c7 3c18 	str.w	r3, [r7, #3096]	; 0xc18
- 800050e:	4628      	mov	r0, r5
- 8000510:	f000 f922 	bl	8000758 <LL_TIM_OC_Init>
- 8000514:	f8d7 3c18 	ldr.w	r3, [r7, #3096]	; 0xc18
- 8000518:	a90c      	add	r1, sp, #48	; 0x30
- 800051a:	f423 6380 	bic.w	r3, r3, #1024	; 0x400
- 800051e:	f8c7 3c18 	str.w	r3, [r7, #3096]	; 0xc18
- 8000522:	686b      	ldr	r3, [r5, #4]
- 8000524:	4628      	mov	r0, r5
- 8000526:	f023 0370 	bic.w	r3, r3, #112	; 0x70
- 800052a:	606b      	str	r3, [r5, #4]
- 800052c:	68ab      	ldr	r3, [r5, #8]
- 800052e:	f023 0380 	bic.w	r3, r3, #128	; 0x80
- 8000532:	60ab      	str	r3, [r5, #8]
- 8000534:	e9cd 440c 	strd	r4, r4, [sp, #48]	; 0x30
- 8000538:	e9cd 4410 	strd	r4, r4, [sp, #64]	; 0x40
- 800053c:	940e      	str	r4, [sp, #56]	; 0x38
- 800053e:	f88d 403c 	strb.w	r4, [sp, #60]	; 0x3c
- 8000542:	f8ad 403e 	strh.w	r4, [sp, #62]	; 0x3e
- 8000546:	f000 f9cf 	bl	80008e8 <LL_TIM_BDTR_Init>
- 800054a:	69b3      	ldr	r3, [r6, #24]
- 800054c:	490e      	ldr	r1, [pc, #56]	; (8000588 <MX_TIM1_Init+0x138>)
- 800054e:	f043 0304 	orr.w	r3, r3, #4
- 8000552:	61b3      	str	r3, [r6, #24]
- 8000554:	69b3      	ldr	r3, [r6, #24]
- 8000556:	480d      	ldr	r0, [pc, #52]	; (800058c <MX_TIM1_Init+0x13c>)
- 8000558:	f003 0304 	and.w	r3, r3, #4
- 800055c:	9300      	str	r3, [sp, #0]
- 800055e:	9b00      	ldr	r3, [sp, #0]
- 8000560:	2309      	movs	r3, #9
- 8000562:	e9cd 1307 	strd	r1, r3, [sp, #28]
- 8000566:	2303      	movs	r3, #3
- 8000568:	a907      	add	r1, sp, #28
- 800056a:	e9cd 3409 	strd	r3, r4, [sp, #36]	; 0x24
- 800056e:	f000 f834 	bl	80005da <LL_GPIO_Init>
- 8000572:	b01a      	add	sp, #104	; 0x68
- 8000574:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
+ 80004e4:	230a      	movs	r3, #10
+ 80004e6:	e9cd 3415 	strd	r3, r4, [sp, #84]	; 0x54
+ 80004ea:	2302      	movs	r3, #2
+ 80004ec:	aa12      	add	r2, sp, #72	; 0x48
+ 80004ee:	4628      	mov	r0, r5
+ 80004f0:	e9cd 3417 	strd	r3, r4, [sp, #92]	; 0x5c
+ 80004f4:	9414      	str	r4, [sp, #80]	; 0x50
+ 80004f6:	9419      	str	r4, [sp, #100]	; 0x64
+ 80004f8:	f000 f92e 	bl	8000758 <LL_TIM_OC_Init>
+ 80004fc:	f8d7 3c18 	ldr.w	r3, [r7, #3096]	; 0xc18
+ 8000500:	aa12      	add	r2, sp, #72	; 0x48
+ 8000502:	f023 0304 	bic.w	r3, r3, #4
+ 8000506:	4641      	mov	r1, r8
+ 8000508:	f8c7 3c18 	str.w	r3, [r7, #3096]	; 0xc18
+ 800050c:	4628      	mov	r0, r5
+ 800050e:	f000 f923 	bl	8000758 <LL_TIM_OC_Init>
+ 8000512:	f8d7 3c18 	ldr.w	r3, [r7, #3096]	; 0xc18
+ 8000516:	a90c      	add	r1, sp, #48	; 0x30
+ 8000518:	f423 6380 	bic.w	r3, r3, #1024	; 0x400
+ 800051c:	f8c7 3c18 	str.w	r3, [r7, #3096]	; 0xc18
+ 8000520:	686b      	ldr	r3, [r5, #4]
+ 8000522:	4628      	mov	r0, r5
+ 8000524:	f023 0370 	bic.w	r3, r3, #112	; 0x70
+ 8000528:	606b      	str	r3, [r5, #4]
+ 800052a:	68ab      	ldr	r3, [r5, #8]
+ 800052c:	f023 0380 	bic.w	r3, r3, #128	; 0x80
+ 8000530:	60ab      	str	r3, [r5, #8]
+ 8000532:	e9cd 440c 	strd	r4, r4, [sp, #48]	; 0x30
+ 8000536:	e9cd 4410 	strd	r4, r4, [sp, #64]	; 0x40
+ 800053a:	940e      	str	r4, [sp, #56]	; 0x38
+ 800053c:	f88d 403c 	strb.w	r4, [sp, #60]	; 0x3c
+ 8000540:	f8ad 403e 	strh.w	r4, [sp, #62]	; 0x3e
+ 8000544:	f000 f9d0 	bl	80008e8 <LL_TIM_BDTR_Init>
+ 8000548:	69b3      	ldr	r3, [r6, #24]
+ 800054a:	490f      	ldr	r1, [pc, #60]	; (8000588 <MX_TIM1_Init+0x138>)
+ 800054c:	f043 0304 	orr.w	r3, r3, #4
+ 8000550:	61b3      	str	r3, [r6, #24]
+ 8000552:	69b3      	ldr	r3, [r6, #24]
+ 8000554:	480d      	ldr	r0, [pc, #52]	; (800058c <MX_TIM1_Init+0x13c>)
+ 8000556:	f003 0304 	and.w	r3, r3, #4
+ 800055a:	9300      	str	r3, [sp, #0]
+ 800055c:	9b00      	ldr	r3, [sp, #0]
+ 800055e:	2309      	movs	r3, #9
+ 8000560:	e9cd 1307 	strd	r1, r3, [sp, #28]
+ 8000564:	2303      	movs	r3, #3
+ 8000566:	a907      	add	r1, sp, #28
+ 8000568:	e9cd 3409 	strd	r3, r4, [sp, #36]	; 0x24
+ 800056c:	f000 f835 	bl	80005da <LL_GPIO_Init>
+ 8000570:	b01a      	add	sp, #104	; 0x68
+ 8000572:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
+ 8000576:	bf00      	nop
  8000578:	40021000 	.word	0x40021000
  800057c:	40012c00 	.word	0x40012c00
  8000580:	e000e100 	.word	0xe000e100

@@ -1,8 +1,14 @@
 /*
- * RFDA_protocol.c
+ *  RFDA_protocol.c
+ * 	Control your RFDA4005 attenuator with ease
  *
- *  Created on: Dec 22, 2023
- *      Author: Vlad
+ *	Timer settings:
+ *	TIM1->CR2|=TIM_CR1_URS; //Only counter overflow/underflow generates an update interrupt or DMA request
+ *	TIM1->DIER|=TIM_DIER_BIE;//Break iterrupt enable
+ *	TIM1->DIER|=TIM_DIER_UIE;//Update interrupt enable
+ *
+ *  Created on: Dec 25, 2023
+ *  Author: Vlad
  */
 
 #include "RFDA_protocol.h"
