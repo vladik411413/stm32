@@ -114,7 +114,7 @@ int main(void)
     /* USER CODE END WHILE */
 	  for(k=0U;k<=5U;k++){
 	  RFDA(~(1<<k));
-	  LL_mDelay(1000);
+	  LL_mDelay(500);
 	  }
     /* USER CODE BEGIN 3 */
   }
