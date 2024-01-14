@@ -24,7 +24,7 @@ void RFDA(uint8_t bit_data){
 	TIM1->SR &= ~TIM_SR_UIF; //CLEAR FLAG
 	TIM1->SR &= ~TIM_SR_BIF; //CLEAR FLAG
 	TIM1->CCER&=~TIM_CCER_CC1E; //CLK OFF
-	GPIOA->BSRR|=LE_Pin<<16U; //LE OFF
+	GPIOA->ODR&=~LE_Pin; //LE OFF
 
 	//data to send
 	msg=bit_data << 1U;
@@ -64,21 +64,21 @@ void TIM1_UP_IRQHandler(void)
 	switch(i)
 	    {
 	        case 0U:
-	        	TIM1->BDTR|= TIM_BDTR_MOE;//OUTPUT ENABLE
+	        	TIM1->BDTR|=TIM_BDTR_MOE;//OUTPUT ENABLE
 	        	TIM1->CCER|=LL_TIM_CHANNEL_CH2; //LE ON
 	            break;
 	        case 1U:
 	        	TIM1->CCER&=~LL_TIM_CHANNEL_CH2; //LE OFF
 	    		TIM1->CCER|=LL_TIM_CHANNEL_CH1; //CLK ON
 	    		if(msg & (0x1U<<i)){
-	    		GPIOA->BSRR|=DATA_Pin; //DATA i BIT SET GPIO_BSRR_BS2 (DATA_PORT)
+	    			GPIOA->ODR|=DATA_Pin; //DATA i BIT SET GPIO_BSRR_BS2 (DATA_PORT)
 	    		}
 	    		else{
-	    		GPIOA->BSRR|=DATA_Pin<<16U; //DATA i BIT RESET GPIO_BSRR_BR2 (DATA_PORT)
+	    			GPIOA->ODR&=~DATA_Pin; //DATA i BIT RESET GPIO_BSRR_BR2 (DATA_PORT)
 	    		}
 	            break;
 	        case 7U:
-	        	GPIOA->BSRR|=DATA_Pin<<16U; //DATA OFF
+	        	GPIOA->ODR&=~DATA_Pin; //DATA OFF
 	        	TIM1->CCER&=~LL_TIM_CHANNEL_CH1; //CLK OFF
 	        	TIM1->CCER|=LL_TIM_CHANNEL_CH2; //LE ON
 	        	break;
@@ -87,14 +87,13 @@ void TIM1_UP_IRQHandler(void)
 	        	TIM1->EGR|=TIM_EGR_BG; //A break event is generated. MOE bit is cleared and BIF flag is set
 	        	break;
 	        default:
-	        	if(msg & (0x1U<<i)){
-	        		   GPIOA->BSRR|=DATA_Pin; //DATA i BIT SET GPIO_BSRR_BS2 (DATA_PORT)
+	        	if(msg & (1U<<i)){
+	        		   GPIOA->ODR|=DATA_Pin; //DATA i BIT SET GPIO_BSRR_BS2 (DATA_PORT)
 	        	}
 	        	else{
-	        		   GPIOA->BSRR|=DATA_Pin<<16U; //DATA i BIT RESET GPIO_BSRR_BR2 (DATA_PORT)
+	        		   GPIOA->ODR&=~DATA_Pin; //DATA i BIT RESET GPIO_BSRR_BR2 (DATA_PORT)
 	        	}
 	    }
-
 
 	i++;
   /* USER CODE END TIM1_UP_IRQn 0 */
