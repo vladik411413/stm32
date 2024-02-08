@@ -51,7 +51,7 @@
 extern uint32_t CCR1_IRQ_Data;
 
 extern uint16_t idrdata;
-
+uint16_t display_data = 0;
 uint32_t t = 0;
 uint32_t info;
 uint16_t x=0;
@@ -68,12 +68,12 @@ char sr[3]= " SR";
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void itoa(uint16_t n, char s[]);
+/* USER CODE BEGIN PFP */
+uint16_t ReadData_D0D7(void);
 void reverse(char s[]);
 void Display_defaults(void);
 void Display_update(void);
-/* USER CODE BEGIN PFP */
-uint16_t ReadData_D0D7(void);
+void itoa(uint16_t n, char s[]);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -135,13 +135,13 @@ int main(void)
   
   Display_defaults();
   /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-    Display_update();
-    LL_mDelay(100);
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -197,26 +197,36 @@ void Display_defaults(void){
   ST7735_FillRectangle(0, 5, 160, 2, ST7735_WHITE);
   ST7735_WriteString(10, 17, "LASER CONTROL STATUS", Font_7x10, ST7735_WHITE, ST7735_BLACK);
   ST7735_FillRectangle(0, 35, 160, 2, ST7735_WHITE);
-  ST7735_WriteString(0, 45, "FREQ" , Font_11x18, ST7735_WHITE, ST7735_BLACK);
-  ST7735_WriteString(0, 65, "DUTY", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(0, 45, "FREQ,kHz" , Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(0, 65, "DUTY,%", Font_11x18, ST7735_WHITE, ST7735_BLACK);
   ST7735_WriteString(0, 85, "LATCH", Font_11x18, ST7735_WHITE, ST7735_BLACK);
   ST7735_WriteString(0, 105, "LASER", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-  ST7735_FillRectangle(60, 35, 2, 93, ST7735_WHITE);
-  ST7735_WriteString(65, 45, "WAIT" , Font_11x18, ST7735_WHITE, ST7735_BLACK);
-  ST7735_WriteString(65, 65, "WAIT", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-  ST7735_WriteString(65, 85, "WAIT", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-  ST7735_WriteString(65, 105, "OFF", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_FillRectangle(95, 35, 2, 93, ST7735_WHITE);
+  ST7735_WriteString(100, 45, "WAIT" , Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(100, 65, "WAIT", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(100, 85, "WAIT", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(100, 105, "OFF", Font_11x18, ST7735_WHITE, ST7735_BLACK);
 }
 /* update graphical display */
 void Display_update(void){
-  itoa(1112,tstr);
+
   if(CCR1_IRQ_Data){
-    
+    display_data = 24000/CCR1_IRQ_Data;
+    itoa(display_data,tstr);
+    ST7735_WriteString(100, 45, tstr , Font_7x10, ST7735_WHITE, ST7735_BLACK);
   }
   if(idrdata){
-    
+    display_data = (100*idrdata)/0xFFFF;
+    itoa(display_data,tstr);
+    ST7735_WriteString(100, 65, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
   }
-  if(){
+  if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){
+      //ST7735_FillRectangle(65, 105, 33, 18, ST7735_BLACK);
+    ST7735_WriteString(100, 105, "ON ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+  }
+  else{
+      //ST7735_FillRectangle(65, 105, 33, 18, ST7735_BLACK);
+    ST7735_WriteString(100, 105, "OFF", Font_7x10, ST7735_WHITE, ST7735_BLACK);
   }
 }
 

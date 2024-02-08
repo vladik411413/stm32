@@ -232,7 +232,7 @@ void EXTI2_IRQHandler(void)
   
   //EM RISING/FALLING edge irq
   
-  if(EM_GPIO_Port->IDR & GPIO_IDR_IDR2){
+  if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){
     
     NVIC_DisableIRQ(EXTI1_IRQn); //LATCH IRQ DISABLE
     EXTI->IMR&=~EXTI_IMR_IM1;
