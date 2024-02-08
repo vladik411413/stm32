@@ -187,7 +187,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-
+  HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -284,10 +284,12 @@ void TIM3_IRQHandler(void)
   /* USER CODE BEGIN TIM3_IRQn 0 */
   CCR1_IRQ_Data = (uint16_t)(TIM3->CCR1);
   TIM3->EGR|=TIM_EGR_UG;
+  /* average
   if(CCR1_IRQ_i >= 0xFF){
     CCR1_IRQ_i = 0;
     CCR1_IRQ_Data = CCR1_IRQ_SUM / CCR1_IRQ_i;
   }
+  */
   /* USER CODE END TIM3_IRQn 0 */
   /* USER CODE BEGIN TIM3_IRQn 1 */
   TIM3->SR&=~TIM_SR_CC1IF;

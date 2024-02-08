@@ -18,12 +18,16 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "spi.h"
 #include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "st7735.h"
+#include <string.h>
+#include "fonts.h"
+#include <stdlib.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,10 +52,24 @@ extern uint32_t CCR1_IRQ_Data;
 
 extern uint16_t idrdata;
 
+uint32_t t = 0;
+uint32_t info;
+uint16_t x=0;
+uint16_t y=0;
+uint16_t dotx=60;
+uint16_t doty=60;
+char tstr[32];
+char str[32];
+char cr1[3]="CR1";
+char cr2[3]="CR2";
+char sr[3]= " SR";
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void itoa(uint16_t n, char s[]);
+void reverse(char s[]);
 /* USER CODE BEGIN PFP */
 uint16_t ReadData_D0D7(void);
 /* USER CODE END PFP */
@@ -74,15 +92,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_AFIO);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-
-  /* System interrupt init*/
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-
-  /** NOJTAG: JTAG-DP Disabled and SW-DP Enabled
-  */
-  LL_GPIO_AF_Remap_SWJ_NOJTAG();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -99,7 +109,12 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM3_Init();
   MX_TIM2_Init();
+  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+  
+  LL_mDelay(1000);
+  ST7735_Init();
+  ST7735_FillScreen(ST7735_BLACK);
   
   //FREQ capture
   LL_mDelay(1000);
@@ -126,7 +141,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    //WARNING! CUBE MX CAN ENABLE EXTIIRQ in file gpio.c
+    itoa(1112,tstr);
+    ST7735_WriteString(0, 25, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -164,11 +180,40 @@ void SystemClock_Config(void)
   {
 
   }
-  LL_Init1msTick(24000000);
   LL_SetSystemCoreClock(24000000);
+
+   /* Update the time base */
+  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /* USER CODE BEGIN 4 */
+ /* itoa:  convert n to characters in s */
+ void itoa(uint16_t n, char s[])
+ {
+     uint16_t i;
+ 
+
+     i = 0;
+     do {       /* generate digits in reverse order */
+         s[i++] = n % 10 + '0';   /* get next digit */
+     } while ((n /= 10) > 0);     /* delete it */
+     s[i] = '\0';
+     reverse(s);
+ }
+ void reverse(char s[])
+ {
+     uint16_t i, j;
+     char c;
+ 
+     for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
+         c = s[i];
+         s[i] = s[j];
+         s[j] = c;
+     }
+ }
 /* USER CODE END 4 */
 
 /**
