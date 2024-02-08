@@ -212,10 +212,10 @@ void Display_defaults(void){
 void Display_update(void){
 
   if(CCR1_IRQ_Data){
-    display_data = 24000/CCR1_IRQ_Data;
+    display_data = 24000/(CCR1_IRQ_Data);
     itoa(display_data,tstr);
     ST7735_WriteString(100, 45, "     ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-    ST7735_WriteString(100, 45, tstr , Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 45, tstr ,Font_11x18, ST7735_WHITE, ST7735_BLACK);
     
   }
   if(idrdata){

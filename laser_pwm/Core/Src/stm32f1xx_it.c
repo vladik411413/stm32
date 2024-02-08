@@ -237,9 +237,9 @@ void EXTI2_IRQHandler(void)
     NVIC_DisableIRQ(EXTI1_IRQn); //LATCH IRQ DISABLE
     EXTI->IMR&=~EXTI_IMR_IM1;
     
-    TIM3->CR1&=TIM_CR1_CEN;
-    TIM3->DIER&=TIM_DIER_CC1IE;
-    TIM3->CCER&=TIM_CCER_CC1E;
+    TIM3->CR1&=~TIM_CR1_CEN;
+    TIM3->DIER&=~TIM_DIER_CC1IE;
+    TIM3->CCER&=~TIM_CCER_CC1E;
     
     if(idrdata&&CCR1_IRQ_Data){
     TIM2->ARR=CCR1_IRQ_Data;
@@ -283,7 +283,7 @@ void EXTI2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-  CCR1_IRQ_Data = (uint16_t)(TIM3->CCR1);
+  CCR1_IRQ_Data = (TIM3->CCR1);
   TIM3->EGR|=TIM_EGR_UG;
   /* average
   if(CCR1_IRQ_i >= 0xFF){
