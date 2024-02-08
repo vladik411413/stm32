@@ -35,7 +35,7 @@ I (..\st7735\fonts.h)(0x657D87AF)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x602569CC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x602569C4)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x602569CE)
-F (../Core/Src/main.c)(0x65C52CEA)(--c99 -c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../st7735-I.\RTE\_laser_pwm-IC:\Users\Vlad\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\Vlad\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD_VL -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F100xB -DUSE_HAL_DRIVER-o laser_pwm\main.o --omf_browse laser_pwm\main.crf --depend laser_pwm\main.d)
+F (../Core/Src/main.c)(0x65C53A01)(--c99 -c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../st7735-I.\RTE\_laser_pwm-IC:\Users\Vlad\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\Vlad\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD_VL -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F100xB -DUSE_HAL_DRIVER-o laser_pwm\main.o --omf_browse laser_pwm\main.crf --depend laser_pwm\main.d)
 I (../Core/Inc/main.h)(0x65C4E3B9)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x6558C64D)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x65C4E3B9)
@@ -194,7 +194,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_pwr.h)(0x6558C64D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_dma.h)(0x6558C64D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_tim.h)(0x6558C64D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_gpio.h)(0x6558C64D)
-F (../Core/Src/stm32f1xx_it.c)(0x65C5298A)(--c99 -c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../st7735-I.\RTE\_laser_pwm-IC:\Users\Vlad\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\Vlad\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD_VL -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F100xB -DUSE_HAL_DRIVER-o laser_pwm\stm32f1xx_it.o --omf_browse laser_pwm\stm32f1xx_it.crf --depend laser_pwm\stm32f1xx_it.d)
+F (../Core/Src/stm32f1xx_it.c)(0x65C53A01)(--c99 -c --cpu Cortex-M3 -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../st7735-I.\RTE\_laser_pwm-IC:\Users\Vlad\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\Vlad\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD_VL -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F100xB -DUSE_HAL_DRIVER-o laser_pwm\stm32f1xx_it.o --omf_browse laser_pwm\stm32f1xx_it.crf --depend laser_pwm\stm32f1xx_it.d)
 I (../Core/Inc/main.h)(0x65C4E3B9)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x6558C64D)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x65C4E3B9)

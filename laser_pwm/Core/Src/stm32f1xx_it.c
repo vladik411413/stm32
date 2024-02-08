@@ -41,9 +41,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-uint16_t CCR1_IRQ_Data = 0;
-uint16_t idrdata = 0;
-uint16_t CCR1_IRQ_i = 0;
+extern uint16_t CCR1_IRQ_Data;
+extern uint16_t idrdata;
+extern uint16_t CCR1_IRQ_i;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -210,12 +210,13 @@ void EXTI1_IRQHandler(void)
   //LATCH RISING edge irq
   
   idrdata = ReadData_D0D7();
+  
   /* USER CODE END EXTI1_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_1) != RESET)
   {
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_1);
     /* USER CODE BEGIN LL_EXTI_LINE_1 */
-
+    
     /* USER CODE END LL_EXTI_LINE_1 */
   }
   /* USER CODE BEGIN EXTI1_IRQn 1 */

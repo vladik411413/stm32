@@ -48,21 +48,21 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-extern uint32_t CCR1_IRQ_Data;
-
-extern uint16_t idrdata;
+uint16_t CCR1_IRQ_Data = 0;
+uint16_t idrdata = 0;
+uint16_t CCR1_IRQ_i = 0;
 uint16_t display_data = 0;
+uint16_t display_data1 = 0;
 uint32_t t = 0;
 uint32_t info;
 uint16_t x=0;
 uint16_t y=0;
 uint16_t dotx=60;
 uint16_t doty=60;
-char tstr[32];
+char tstr[6];
+char gstr[6];
 char str[32];
-char cr1[3]="CR1";
-char cr2[3]="CR2";
-char sr[3]= " SR";
+
 
 /* USER CODE END PV */
 
@@ -118,7 +118,7 @@ int main(void)
   //FREQ capture
   LL_mDelay(1000);
   NVIC_EnableIRQ(TIM3_IRQn);
-  NVIC_SetPriority(TIM3_IRQn,1);
+  NVIC_SetPriority(TIM3_IRQn,2);
   TIM3->CCER|=TIM_CCER_CC1E;
   TIM3->DIER|=TIM_DIER_CC1IE;
   TIM3->CR1|=TIM_CR1_CEN;
@@ -126,7 +126,7 @@ int main(void)
   
 
 	NVIC_EnableIRQ(EXTI1_IRQn); //LATCH
-  NVIC_SetPriority(EXTI1_IRQn,0);
+  NVIC_SetPriority(EXTI1_IRQn,1);
   EXTI->IMR|=EXTI_IMR_IM1;
   
   NVIC_EnableIRQ(EXTI2_IRQn); //EM
@@ -212,10 +212,10 @@ void Display_defaults(void){
 void Display_update(void){
 
   if(CCR1_IRQ_Data){
-    display_data = 24000/(CCR1_IRQ_Data);
-    itoa(display_data,tstr);
+    display_data1 = 24000/(CCR1_IRQ_Data);
+    itoa(display_data1,gstr);
     ST7735_WriteString(100, 45, "     ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-    ST7735_WriteString(100, 45, tstr ,Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 45, gstr ,Font_11x18, ST7735_WHITE, ST7735_BLACK);
     
   }
   if(idrdata){
@@ -223,10 +223,12 @@ void Display_update(void){
     itoa(display_data,tstr);
     ST7735_WriteString(100, 65, "     ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     ST7735_WriteString(100, 65, tstr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 85, "DONE", Font_11x18, ST7735_WHITE, ST7735_BLACK);
   }
   if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){
       //ST7735_FillRectangle(65, 105, 33, 18, ST7735_BLACK);
     ST7735_WriteString(100, 105, "ON ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 85, "WAIT", Font_11x18, ST7735_WHITE, ST7735_BLACK);  
   }
   else{
       //ST7735_FillRectangle(65, 105, 33, 18, ST7735_BLACK);
