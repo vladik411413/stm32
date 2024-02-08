@@ -41,12 +41,14 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-uint32_t CCR1_IRQ_Data;
+uint16_t CCR1_IRQ_Data = 0;
+uint16_t idrdata = 0;
+uint16_t CCR1_IRQ_i = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-
+uint16_t ReadData_D0D7(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -204,7 +206,10 @@ void SysTick_Handler(void)
 void EXTI1_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI1_IRQn 0 */
-
+  
+  //LATCH RISING edge irq
+  
+  idrdata = ReadData_D0D7();
   /* USER CODE END EXTI1_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_1) != RESET)
   {
@@ -224,13 +229,46 @@ void EXTI1_IRQHandler(void)
 void EXTI2_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI2_IRQn 0 */
-
+  
+  //EM RISING/FALLING edge irq
+  
+  if(EM_GPIO_Port->IDR & GPIO_IDR_IDR2){
+    NVIC_DisableIRQ(EXTI1_IRQn); //LATCH IRQ DISABLE
+    EXTI->IMR&=~EXTI_IMR_IM1;
+    
+    TIM3->CR1&=TIM_CR1_CEN;
+    TIM3->DIER&=TIM_DIER_CC1IE;
+    TIM3->CCER&=TIM_CCER_CC1E;
+    
+    if(idrdata&&CCR1_IRQ_Data){
+    TIM2->ARR=CCR1_IRQ_Data;
+    TIM2->CCR1=(CCR1_IRQ_Data*idrdata) / 0xFFFF;
+    TIM2->EGR|=TIM_EGR_UG;
+    TIM2->CCER&=~TIM_CCER_CC1E;
+    TIM2->CR1&=~TIM_CR1_CEN;
+    }
+  }
+  else{
+    
+    idrdata = 0;
+    CCR1_IRQ_Data = 0;
+    
+    NVIC_EnableIRQ(EXTI1_IRQn); //LATCH IRQ ENABLE
+    NVIC_SetPriority(EXTI1_IRQn,0);
+    EXTI->IMR|=EXTI_IMR_IM1;
+    
+    TIM3->CCER|=TIM_CCER_CC1E;
+    TIM3->DIER|=TIM_DIER_CC1IE;
+    TIM3->CR1|=TIM_CR1_CEN;
+    
+    TIM2->CCER|=TIM_CCER_CC1E;
+    TIM2->CR1|=TIM_CR1_CEN;
+  }
   /* USER CODE END EXTI2_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_2) != RESET)
   {
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_2);
     /* USER CODE BEGIN LL_EXTI_LINE_2 */
-
     /* USER CODE END LL_EXTI_LINE_2 */
   }
   /* USER CODE BEGIN EXTI2_IRQn 1 */
@@ -244,8 +282,12 @@ void EXTI2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-  CCR1_IRQ_Data = TIM3->CCR1;
-  TIM2->EGR|=TIM_EGR_UG;
+  CCR1_IRQ_Data = (uint16_t)(TIM3->CCR1);
+  TIM3->EGR|=TIM_EGR_UG;
+  if(CCR1_IRQ_i >= 0xFF){
+    CCR1_IRQ_i = 0;
+    CCR1_IRQ_Data = CCR1_IRQ_SUM / CCR1_IRQ_i;
+  }
   /* USER CODE END TIM3_IRQn 0 */
   /* USER CODE BEGIN TIM3_IRQn 1 */
   TIM3->SR&=~TIM_SR_CC1IF;
@@ -253,5 +295,9 @@ void TIM3_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
+uint16_t ReadData_D0D7(void){
+  uint32_t data;
+  data =((GPIOB->IDR)& 0xFF00) / 0x100;
+  return ((uint16_t)data);
+}
 /* USER CODE END 1 */

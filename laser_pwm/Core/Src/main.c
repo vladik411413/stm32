@@ -46,14 +46,14 @@
 /* USER CODE BEGIN PV */
 extern uint32_t CCR1_IRQ_Data;
 
-GPIO_TypeDef* DATA_Port = D0_GPIO_Port;
-uint32_t DATA_Port_Mask = D0_Pin|D1_Pin|D2_Pin|D3_Pin|D4_Pin|D5_Pin|D6_Pin|D7_Pin;
+extern uint16_t idrdata;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-uint32_t ReadData_D0D7(void);
+uint16_t ReadData_D0D7(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -110,11 +110,15 @@ int main(void)
   TIM3->CR1|=TIM_CR1_CEN;
   //
   
-  TIM2->ARR=24000;
-	TIM2->CCR1=1523;
-	TIM2->EGR|=TIM_EGR_UG;
-  TIM2->CCER|=TIM_CCER_CC1E;
-  TIM2->CR1|=TIM_CR1_CEN;
+
+	NVIC_EnableIRQ(EXTI1_IRQn); //LATCH
+  NVIC_SetPriority(EXTI1_IRQn,0);
+  EXTI->IMR|=EXTI_IMR_IM1;
+  
+  NVIC_EnableIRQ(EXTI2_IRQn); //EM
+  NVIC_SetPriority(EXTI2_IRQn,0);
+  EXTI->IMR|=EXTI_IMR_IM2;
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,7 +126,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    //WARNING! CUBE MX CAN ENABLE EXTIIRQ in file gpio.c
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -165,11 +169,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-uint32_t ReadData_D0D7(void){
-  uint32_t data;
-  data =((DATA_Port->IDR)& DATA_Port_Mask) /  D0_Pin;
-  return data;
-}
 /* USER CODE END 4 */
 
 /**
