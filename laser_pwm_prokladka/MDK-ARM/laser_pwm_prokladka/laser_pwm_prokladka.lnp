@@ -1,0 +1,23 @@
+--cpu Cortex-M3
+"laser_pwm_prokladka\startup_stm32f103xb.o"
+"laser_pwm_prokladka\main.o"
+"laser_pwm_prokladka\stm32f1xx_it.o"
+"laser_pwm_prokladka\stm32f1xx_hal_msp.o"
+"laser_pwm_prokladka\stm32f1xx_hal_gpio_ex.o"
+"laser_pwm_prokladka\stm32f1xx_hal_tim.o"
+"laser_pwm_prokladka\stm32f1xx_hal_tim_ex.o"
+"laser_pwm_prokladka\stm32f1xx_hal.o"
+"laser_pwm_prokladka\stm32f1xx_hal_rcc.o"
+"laser_pwm_prokladka\stm32f1xx_hal_rcc_ex.o"
+"laser_pwm_prokladka\stm32f1xx_hal_gpio.o"
+"laser_pwm_prokladka\stm32f1xx_hal_dma.o"
+"laser_pwm_prokladka\stm32f1xx_hal_cortex.o"
+"laser_pwm_prokladka\stm32f1xx_hal_pwr.o"
+"laser_pwm_prokladka\stm32f1xx_hal_flash.o"
+"laser_pwm_prokladka\stm32f1xx_hal_flash_ex.o"
+"laser_pwm_prokladka\stm32f1xx_hal_exti.o"
+"laser_pwm_prokladka\system_stm32f1xx.o"
+--strict --scatter "laser_pwm_prokladka\laser_pwm_prokladka.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "laser_pwm_prokladka.map" -o laser_pwm_prokladka\laser_pwm_prokladka.axf
