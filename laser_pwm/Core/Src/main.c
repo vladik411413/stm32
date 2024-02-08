@@ -70,6 +70,8 @@ char sr[3]= " SR";
 void SystemClock_Config(void);
 void itoa(uint16_t n, char s[]);
 void reverse(char s[]);
+void Display_defaults(void);
+void Display_update(void);
 /* USER CODE BEGIN PFP */
 uint16_t ReadData_D0D7(void);
 /* USER CODE END PFP */
@@ -112,9 +114,6 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   
-  LL_mDelay(1000);
-  ST7735_Init();
-  ST7735_FillScreen(ST7735_BLACK);
   
   //FREQ capture
   LL_mDelay(1000);
@@ -134,15 +133,15 @@ int main(void)
   NVIC_SetPriority(EXTI2_IRQn,0);
   EXTI->IMR|=EXTI_IMR_IM2;
   
+  Display_defaults();
   /* USER CODE END 2 */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-    itoa(1112,tstr);
-    ST7735_WriteString(0, 25, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    Display_update();
+    LL_mDelay(100);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -190,6 +189,37 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+/* set graphical display */
+void Display_defaults(void){
+  ST7735_Init();
+  ST7735_FillScreen(ST7735_BLACK);
+  ST7735_FillRectangle(0, 5, 160, 2, ST7735_WHITE);
+  ST7735_WriteString(10, 17, "LASER CONTROL STATUS", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+  ST7735_FillRectangle(0, 35, 160, 2, ST7735_WHITE);
+  ST7735_WriteString(0, 45, "FREQ" , Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(0, 65, "DUTY", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(0, 85, "LATCH", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(0, 105, "LASER", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_FillRectangle(60, 35, 2, 93, ST7735_WHITE);
+  ST7735_WriteString(65, 45, "WAIT" , Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(65, 65, "WAIT", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(65, 85, "WAIT", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+  ST7735_WriteString(65, 105, "OFF", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+}
+/* update graphical display */
+void Display_update(void){
+  itoa(1112,tstr);
+  if(CCR1_IRQ_Data){
+    
+  }
+  if(idrdata){
+    
+  }
+  if(){
+  }
+}
+
  /* itoa:  convert n to characters in s */
  void itoa(uint16_t n, char s[])
  {
@@ -203,6 +233,7 @@ void SystemClock_Config(void)
      s[i] = '\0';
      reverse(s);
  }
+ 
  void reverse(char s[])
  {
      uint16_t i, j;
@@ -214,6 +245,7 @@ void SystemClock_Config(void)
          s[j] = c;
      }
  }
+ 
 /* USER CODE END 4 */
 
 /**

@@ -233,6 +233,7 @@ void EXTI2_IRQHandler(void)
   //EM RISING/FALLING edge irq
   
   if(EM_GPIO_Port->IDR & GPIO_IDR_IDR2){
+    
     NVIC_DisableIRQ(EXTI1_IRQn); //LATCH IRQ DISABLE
     EXTI->IMR&=~EXTI_IMR_IM1;
     
@@ -244,8 +245,8 @@ void EXTI2_IRQHandler(void)
     TIM2->ARR=CCR1_IRQ_Data;
     TIM2->CCR1=(CCR1_IRQ_Data*idrdata) / 0xFFFF;
     TIM2->EGR|=TIM_EGR_UG;
-    TIM2->CCER&=~TIM_CCER_CC1E;
-    TIM2->CR1&=~TIM_CR1_CEN;
+    TIM2->CCER|=TIM_CCER_CC1E;
+    TIM2->CR1|=TIM_CR1_CEN;
     }
   }
   else{
@@ -261,8 +262,8 @@ void EXTI2_IRQHandler(void)
     TIM3->DIER|=TIM_DIER_CC1IE;
     TIM3->CR1|=TIM_CR1_CEN;
     
-    TIM2->CCER|=TIM_CCER_CC1E;
-    TIM2->CR1|=TIM_CR1_CEN;
+    TIM2->CCER&=~TIM_CCER_CC1E;
+    TIM2->CR1&=~TIM_CR1_CEN;
   }
   /* USER CODE END EXTI2_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_2) != RESET)
