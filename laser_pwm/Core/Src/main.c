@@ -141,7 +141,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    Display_update();
+    LL_mDelay(200);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -213,20 +214,23 @@ void Display_update(void){
   if(CCR1_IRQ_Data){
     display_data = 24000/CCR1_IRQ_Data;
     itoa(display_data,tstr);
-    ST7735_WriteString(100, 45, tstr , Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 45, "     ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 45, tstr , Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    
   }
   if(idrdata){
-    display_data = (100*idrdata)/0xFFFF;
+    display_data = (100*idrdata)/0xFF;
     itoa(display_data,tstr);
-    ST7735_WriteString(100, 65, tstr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 65, "     ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 65, tstr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
   }
   if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){
       //ST7735_FillRectangle(65, 105, 33, 18, ST7735_BLACK);
-    ST7735_WriteString(100, 105, "ON ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 105, "ON ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
   }
   else{
       //ST7735_FillRectangle(65, 105, 33, 18, ST7735_BLACK);
-    ST7735_WriteString(100, 105, "OFF", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 105, "OFF", Font_11x18, ST7735_WHITE, ST7735_BLACK);
   }
 }
 
