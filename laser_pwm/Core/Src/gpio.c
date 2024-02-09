@@ -52,11 +52,11 @@ void MX_GPIO_Init(void)
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_1|LL_GPIO_PIN_2|LL_GPIO_PIN_3|LD4_Pin
-                          |LD3_Pin);
+  LL_GPIO_ResetOutputPin(GPIOC, RST_Pin|CS_Pin|DC_Pin|LD4_Pin
+                          |LD3_Pin|LASER_Pin);
 
   /**/
-  GPIO_InitStruct.Pin = LL_GPIO_PIN_1|LL_GPIO_PIN_2|LL_GPIO_PIN_3|LD4_Pin
+  GPIO_InitStruct.Pin = RST_Pin|CS_Pin|DC_Pin|LD4_Pin
                           |LD3_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
@@ -68,6 +68,13 @@ void MX_GPIO_Init(void)
                           |D7_Pin|D0_Pin|D1_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_FLOATING;
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /**/
+  GPIO_InitStruct.Pin = LASER_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  LL_GPIO_Init(LASER_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   LL_GPIO_AF_SetEXTISource(LL_GPIO_AF_EXTI_PORTA, LL_GPIO_AF_EXTI_LINE1);

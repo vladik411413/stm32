@@ -141,9 +141,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    Display_update();
-    LL_mDelay(200);
+
     /* USER CODE BEGIN 3 */
+    Display_update();
+    LL_mDelay(400);
   }
   /* USER CODE END 3 */
 }
@@ -214,14 +215,14 @@ void Display_update(void){
   if(CCR1_IRQ_Data){
     display_data1 = 24000/(CCR1_IRQ_Data);
     itoa(display_data1,gstr);
-    ST7735_WriteString(100, 45, "     ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 45, "    ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     ST7735_WriteString(100, 45, gstr ,Font_11x18, ST7735_WHITE, ST7735_BLACK);
     
   }
   if(idrdata){
     display_data = (100*idrdata)/0xFF;
     itoa(display_data,tstr);
-    ST7735_WriteString(100, 65, "     ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
+    ST7735_WriteString(100, 65, "    ", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     ST7735_WriteString(100, 65, tstr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
     ST7735_WriteString(100, 85, "DONE", Font_11x18, ST7735_WHITE, ST7735_BLACK);
   }

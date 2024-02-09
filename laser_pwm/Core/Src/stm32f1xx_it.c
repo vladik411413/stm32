@@ -244,7 +244,7 @@ void EXTI2_IRQHandler(void)
     
     if(idrdata&&CCR1_IRQ_Data){
     TIM2->ARR=CCR1_IRQ_Data;
-    TIM2->CCR1=(CCR1_IRQ_Data*idrdata) / 0xFFFF;
+    TIM2->CCR1=(CCR1_IRQ_Data*idrdata) / 0xFF;
     TIM2->EGR|=TIM_EGR_UG;
     TIM2->CCER|=TIM_CCER_CC1E;
     TIM2->CR1|=TIM_CR1_CEN;
@@ -256,7 +256,6 @@ void EXTI2_IRQHandler(void)
     CCR1_IRQ_Data = 0;
     
     NVIC_EnableIRQ(EXTI1_IRQn); //LATCH IRQ ENABLE
-    NVIC_SetPriority(EXTI1_IRQn,0);
     EXTI->IMR|=EXTI_IMR_IM1;
     
     TIM3->CCER|=TIM_CCER_CC1E;
@@ -284,7 +283,7 @@ void EXTI2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-  CCR1_IRQ_Data = (TIM3->CCR1);
+  CCR1_IRQ_Data = TIM3->CCR1;
   TIM3->EGR|=TIM_EGR_UG;
   /* average
   if(CCR1_IRQ_i >= 0xFF){
