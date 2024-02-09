@@ -74,14 +74,15 @@ void Error_Handler(void);
 #define CS_GPIO_Port GPIOC
 #define DC_Pin LL_GPIO_PIN_3
 #define DC_GPIO_Port GPIOC
+#define BUTTON_Pin LL_GPIO_PIN_0
+#define BUTTON_GPIO_Port GPIOA
+#define BUTTON_EXTI_IRQn EXTI0_IRQn
 #define LATCH_Pin LL_GPIO_PIN_1
 #define LATCH_GPIO_Port GPIOA
 #define LATCH_EXTI_IRQn EXTI1_IRQn
 #define EM_Pin LL_GPIO_PIN_2
 #define EM_GPIO_Port GPIOA
 #define EM_EXTI_IRQn EXTI2_IRQn
-#define SYNC_Pin LL_GPIO_PIN_6
-#define SYNC_GPIO_Port GPIOA
 #define D2_Pin LL_GPIO_PIN_10
 #define D2_GPIO_Port GPIOB
 #define D3_Pin LL_GPIO_PIN_11
@@ -98,6 +99,8 @@ void Error_Handler(void);
 #define LD4_GPIO_Port GPIOC
 #define LD3_Pin LL_GPIO_PIN_9
 #define LD3_GPIO_Port GPIOC
+#define SYNC5V_Pin LL_GPIO_PIN_8
+#define SYNC5V_GPIO_Port GPIOA
 #define TMS_SWDIO_Pin LL_GPIO_PIN_13
 #define TMS_SWDIO_GPIO_Port GPIOA
 #define TCK_SWCLK_Pin LL_GPIO_PIN_14

@@ -201,6 +201,30 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles EXTI line0 interrupt.
+  */
+void EXTI0_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI0_IRQn 0 */
+  __disable_irq();
+  GPIOC->ODR|=GPIO_ODR_ODR8;//led
+  GPIOC->ODR|=GPIO_ODR_ODR9;//led
+  GPIOC->ODR&=~GPIO_ODR_ODR10;//laser off
+  
+  /* USER CODE END EXTI0_IRQn 0 */
+  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_0) != RESET)
+  {
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_0);
+    /* USER CODE BEGIN LL_EXTI_LINE_0 */
+
+    /* USER CODE END LL_EXTI_LINE_0 */
+  }
+  /* USER CODE BEGIN EXTI0_IRQn 1 */
+
+  /* USER CODE END EXTI0_IRQn 1 */
+}
+
+/**
   * @brief This function handles EXTI line1 interrupt.
   */
 void EXTI1_IRQHandler(void)
@@ -238,11 +262,12 @@ void EXTI2_IRQHandler(void)
     NVIC_DisableIRQ(EXTI1_IRQn); //LATCH IRQ DISABLE
     EXTI->IMR&=~EXTI_IMR_IM1;
     
-    TIM3->CR1&=~TIM_CR1_CEN;
-    TIM3->DIER&=~TIM_DIER_CC1IE;
-    TIM3->CCER&=~TIM_CCER_CC1E;
+    TIM1->CR1&=~TIM_CR1_CEN;
+    TIM1->DIER&=~TIM_DIER_CC1IE;
+    TIM1->CCER&=~TIM_CCER_CC1E;
     
     if(idrdata&&CCR1_IRQ_Data){
+    GPIOC->ODR|=GPIO_ODR_ODR10;//laser on
     TIM2->ARR=CCR1_IRQ_Data;
     TIM2->CCR1=(CCR1_IRQ_Data*idrdata) / 0xFF;
     TIM2->EGR|=TIM_EGR_UG;
@@ -251,16 +276,16 @@ void EXTI2_IRQHandler(void)
     }
   }
   else{
-    
+    GPIOC->ODR&=~GPIO_ODR_ODR10;//laser off
     idrdata = 0;
     CCR1_IRQ_Data = 0;
     
     NVIC_EnableIRQ(EXTI1_IRQn); //LATCH IRQ ENABLE
     EXTI->IMR|=EXTI_IMR_IM1;
     
-    TIM3->CCER|=TIM_CCER_CC1E;
-    TIM3->DIER|=TIM_DIER_CC1IE;
-    TIM3->CR1|=TIM_CR1_CEN;
+    TIM1->CCER|=TIM_CCER_CC1E;
+    TIM1->DIER|=TIM_DIER_CC1IE;
+    TIM1->CR1|=TIM_CR1_CEN;
     
     TIM2->CCER&=~TIM_CCER_CC1E;
     TIM2->CR1&=~TIM_CR1_CEN;
@@ -278,23 +303,17 @@ void EXTI2_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles TIM3 global interrupt.
+  * @brief This function handles TIM1 capture compare interrupt.
   */
-void TIM3_IRQHandler(void)
+void TIM1_CC_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM3_IRQn 0 */
-  CCR1_IRQ_Data = TIM3->CCR1;
-  TIM3->EGR|=TIM_EGR_UG;
-  /* average
-  if(CCR1_IRQ_i >= 0xFF){
-    CCR1_IRQ_i = 0;
-    CCR1_IRQ_Data = CCR1_IRQ_SUM / CCR1_IRQ_i;
-  }
-  */
-  /* USER CODE END TIM3_IRQn 0 */
-  /* USER CODE BEGIN TIM3_IRQn 1 */
-  TIM3->SR&=~TIM_SR_CC1IF;
-  /* USER CODE END TIM3_IRQn 1 */
+  /* USER CODE BEGIN TIM1_CC_IRQn 0 */
+  CCR1_IRQ_Data = TIM1->CCR1;
+  TIM1->EGR|=TIM_EGR_UG;
+  /* USER CODE END TIM1_CC_IRQn 0 */
+  /* USER CODE BEGIN TIM1_CC_IRQn 1 */
+  TIM1->SR&=~TIM_SR_CC1IF;  
+  /* USER CODE END TIM1_CC_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

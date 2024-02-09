@@ -109,19 +109,19 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM3_Init();
   MX_TIM2_Init();
   MX_SPI1_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   
   
   //FREQ capture
   LL_mDelay(1000);
-  NVIC_EnableIRQ(TIM3_IRQn);
-  NVIC_SetPriority(TIM3_IRQn,2);
-  TIM3->CCER|=TIM_CCER_CC1E;
-  TIM3->DIER|=TIM_DIER_CC1IE;
-  TIM3->CR1|=TIM_CR1_CEN;
+  NVIC_EnableIRQ(TIM1_CC_IRQn);
+  NVIC_SetPriority(TIM1_CC_IRQn,2);
+  TIM1->CCER|=TIM_CCER_CC1E;
+  TIM1->DIER|=TIM_DIER_CC1IE;
+  TIM1->CR1|=TIM_CR1_CEN;
   //
   
 
