@@ -44,6 +44,7 @@
 extern uint16_t CCR1_IRQ_Data;
 extern uint16_t idrdata;
 extern uint16_t CCR1_IRQ_i;
+extern uint8_t Fault_i;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -210,7 +211,7 @@ void EXTI0_IRQHandler(void)
   GPIOC->ODR|=GPIO_ODR_ODR8;//led
   GPIOC->ODR|=GPIO_ODR_ODR9;//led
   GPIOC->ODR&=~GPIO_ODR_ODR10;//laser off
-  
+  Fault_i=1;
   /* USER CODE END EXTI0_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_0) != RESET)
   {
@@ -273,6 +274,8 @@ void EXTI2_IRQHandler(void)
     TIM2->EGR|=TIM_EGR_UG;
     TIM2->CCER|=TIM_CCER_CC1E;
     TIM2->CR1|=TIM_CR1_CEN;
+    idrdata = 0;
+    CCR1_IRQ_Data = 0;
     }
   }
   else{
