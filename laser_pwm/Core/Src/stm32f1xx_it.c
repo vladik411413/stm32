@@ -258,40 +258,17 @@ void EXTI2_IRQHandler(void)
   
   //EM RISING/FALLING edge irq
   
-  if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){
-    
-    NVIC_DisableIRQ(EXTI1_IRQn); //LATCH IRQ DISABLE
-    EXTI->IMR&=~EXTI_IMR_IM1;
-    
-    TIM1->CR1&=~TIM_CR1_CEN;
-    TIM1->DIER&=~TIM_DIER_CC1IE;
-    TIM1->CCER&=~TIM_CCER_CC1E;
-    
+  if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){  
     if(idrdata&&CCR1_IRQ_Data){
-    GPIOC->ODR|=GPIO_ODR_ODR10;//laser on
-    TIM2->ARR=CCR1_IRQ_Data;
-    TIM2->CCR1=(CCR1_IRQ_Data*idrdata) / 0xFF;
     TIM2->EGR|=TIM_EGR_UG;
-    TIM2->CCER|=TIM_CCER_CC1E;
+    TIM2->CCER|=TIM_CCER_CC2E;
     TIM2->CR1|=TIM_CR1_CEN;
-    idrdata = 0;
-    CCR1_IRQ_Data = 0;
     }
   }
   else{
-    GPIOC->ODR&=~GPIO_ODR_ODR10;//laser off
-    idrdata = 0;
-    CCR1_IRQ_Data = 0;
-    
-    NVIC_EnableIRQ(EXTI1_IRQn); //LATCH IRQ ENABLE
-    EXTI->IMR|=EXTI_IMR_IM1;
-    
-    TIM1->CCER|=TIM_CCER_CC1E;
-    TIM1->DIER|=TIM_DIER_CC1IE;
-    TIM1->CR1|=TIM_CR1_CEN;
-    
-    TIM2->CCER&=~TIM_CCER_CC1E;
-    TIM2->CR1&=~TIM_CR1_CEN;
+		TIM2->CR1&=~TIM_CR1_CEN;
+    TIM2->CCER&=~TIM_CCER_CC2E;
+    TIM2->EGR|=TIM_EGR_UG;
   }
   /* USER CODE END EXTI2_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_2) != RESET)
@@ -303,6 +280,66 @@ void EXTI2_IRQHandler(void)
   /* USER CODE BEGIN EXTI2_IRQn 1 */
 
   /* USER CODE END EXTI2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line3 interrupt.
+  */
+void EXTI3_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI3_IRQn 0 */
+  //EE RISING/FALLING edge irq	
+  if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR3){
+    
+    NVIC_DisableIRQ(EXTI1_IRQn); //LATCH IRQ DISABLE
+    EXTI->IMR&=~EXTI_IMR_IM1;
+    
+    TIM1->CR1&=~TIM_CR1_CEN;
+    TIM1->DIER&=~TIM_DIER_CC1IE;
+    TIM1->CCER&=~TIM_CCER_CC1E;
+		
+		if(idrdata&&CCR1_IRQ_Data){
+    GPIOC->ODR|=GPIO_ODR_ODR10;//laser on
+    TIM2->ARR=CCR1_IRQ_Data;
+		switch(idrdata){
+			case 0xFF:
+				TIM2->CCR2=0x2U;
+			break;
+			default:
+				TIM2->CCR2 = CCR1_IRQ_Data-((CCR1_IRQ_Data*(idrdata)) / 0xFF);
+			break;
+		}
+    TIM2->EGR|=TIM_EGR_UG;
+		
+    }
+  }
+  else{
+    GPIOC->ODR&=~GPIO_ODR_ODR10;//laser off
+    NVIC_EnableIRQ(EXTI1_IRQn); //LATCH IRQ ENABLE
+    EXTI->IMR|=EXTI_IMR_IM1;
+    
+    TIM1->CCER|=TIM_CCER_CC1E;
+    TIM1->DIER|=TIM_DIER_CC1IE;
+    TIM1->CR1|=TIM_CR1_CEN;
+    
+		TIM2->CR1&=~TIM_CR1_CEN;
+    TIM2->CCER&=~TIM_CCER_CC2E;
+    TIM2->EGR|=TIM_EGR_UG;
+		
+		idrdata = 0;
+		CCR1_IRQ_Data = 0;
+  }
+  /* USER CODE END EXTI3_IRQn 0 */
+  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
+  {
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
+    /* USER CODE BEGIN LL_EXTI_LINE_3 */
+
+    /* USER CODE END LL_EXTI_LINE_3 */
+  }
+  /* USER CODE BEGIN EXTI3_IRQn 1 */
+
+  /* USER CODE END EXTI3_IRQn 1 */
 }
 
 /**

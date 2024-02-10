@@ -52,11 +52,11 @@ void MX_GPIO_Init(void)
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOC, RST_Pin|CS_Pin|DC_Pin|LD4_Pin
+  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_1|CS_Pin|DC_Pin|LD4_Pin
                           |LD3_Pin|LASER_Pin);
 
   /**/
-  GPIO_InitStruct.Pin = RST_Pin|CS_Pin|DC_Pin|LD4_Pin
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_1|CS_Pin|DC_Pin|LD4_Pin
                           |LD3_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
@@ -64,7 +64,7 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = D3_Pin|D4_Pin|D5_Pin|D6_Pin
+  GPIO_InitStruct.Pin = D3_Pin|D4_Pin|LL_GPIO_PIN_13|D6_Pin
                           |D7_Pin|D0_Pin|D1_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_FLOATING;
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -84,6 +84,9 @@ void MX_GPIO_Init(void)
 
   /**/
   LL_GPIO_AF_SetEXTISource(LL_GPIO_AF_EXTI_PORTA, LL_GPIO_AF_EXTI_LINE2);
+
+  /**/
+  LL_GPIO_AF_SetEXTISource(LL_GPIO_AF_EXTI_PORTA, LL_GPIO_AF_EXTI_LINE3);
 
   /**/
   LL_GPIO_AF_SetEXTISource(LL_GPIO_AF_EXTI_PORTB, LL_GPIO_AF_EXTI_LINE10);
@@ -110,6 +113,13 @@ void MX_GPIO_Init(void)
   LL_EXTI_Init(&EXTI_InitStruct);
 
   /**/
+  EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_3;
+  EXTI_InitStruct.LineCommand = ENABLE;
+  EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;
+  EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_RISING_FALLING;
+  LL_EXTI_Init(&EXTI_InitStruct);
+
+  /**/
   EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_10;
   EXTI_InitStruct.LineCommand = ENABLE;
   EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;
@@ -129,6 +139,9 @@ void MX_GPIO_Init(void)
   LL_GPIO_SetPinMode(EM_GPIO_Port, EM_Pin, LL_GPIO_MODE_FLOATING);
 
   /**/
+  LL_GPIO_SetPinMode(EE_GPIO_Port, EE_Pin, LL_GPIO_MODE_FLOATING);
+
+  /**/
   LL_GPIO_SetPinMode(D2_GPIO_Port, D2_Pin, LL_GPIO_MODE_FLOATING);
 
   /* EXTI interrupt init*/
@@ -138,6 +151,8 @@ void MX_GPIO_Init(void)
   NVIC_EnableIRQ(EXTI1_IRQn);
   NVIC_SetPriority(EXTI2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
   NVIC_EnableIRQ(EXTI2_IRQn);
+  NVIC_SetPriority(EXTI3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_EnableIRQ(EXTI3_IRQn);
 
 }
 

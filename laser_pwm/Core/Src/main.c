@@ -119,7 +119,7 @@ int main(void)
   //FREQ capture
   LL_mDelay(1000);
   NVIC_EnableIRQ(TIM1_CC_IRQn);
-  NVIC_SetPriority(TIM1_CC_IRQn,2);
+  NVIC_SetPriority(TIM1_CC_IRQn,3);
   TIM1->CCER|=TIM_CCER_CC1E;
   TIM1->DIER|=TIM_DIER_CC1IE;
   TIM1->CR1|=TIM_CR1_CEN;
@@ -127,12 +127,16 @@ int main(void)
   
 
 	NVIC_EnableIRQ(EXTI1_IRQn); //LATCH
-  NVIC_SetPriority(EXTI1_IRQn,1);
+  NVIC_SetPriority(EXTI1_IRQn,2);
   EXTI->IMR|=EXTI_IMR_IM1;
   
   NVIC_EnableIRQ(EXTI2_IRQn); //EM
-  NVIC_SetPriority(EXTI2_IRQn,0);
+  NVIC_SetPriority(EXTI2_IRQn,1);
   EXTI->IMR|=EXTI_IMR_IM2;
+	
+	NVIC_EnableIRQ(EXTI3_IRQn); //EE
+  NVIC_SetPriority(EXTI3_IRQn,0);
+  EXTI->IMR|=EXTI_IMR_IM3;
   
   Display_defaults();
   /* USER CODE END 2 */
