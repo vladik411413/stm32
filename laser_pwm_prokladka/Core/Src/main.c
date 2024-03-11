@@ -89,7 +89,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-    TIM2->ARR=100;
+    TIM2->ARR=800;
     TIM2->CCR1=(TIM2->ARR)/2;
     TIM2->EGR|=TIM_EGR_UG;
     TIM2->CCER|=TIM_CCER_CC1E;

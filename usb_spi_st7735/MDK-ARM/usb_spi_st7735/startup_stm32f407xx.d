@@ -1,0 +1,1 @@
+usb_spi_st7735\startup_stm32f407xx.o: startup_stm32f407xx.s
