@@ -257,8 +257,12 @@ void EXTI2_IRQHandler(void)
   /* USER CODE BEGIN EXTI2_IRQn 0 */
   
   //EM RISING/FALLING edge irq
-  
-  if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){  
+  if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){ 
+		//freq of a PWM is set
+		TIM2->ARR=CCR1_IRQ_Data;
+		//duty (power) is set
+		TIM2->CCR2 = CCR1_IRQ_Data-((CCR1_IRQ_Data*(idrdata)) / 0xFF);
+		TIM2->EGR|=TIM_EGR_UG;
     TIM2->CCER|=TIM_CCER_CC2E;
     TIM2->CR1|=TIM_CR1_CEN;
   }
@@ -288,7 +292,7 @@ void EXTI3_IRQHandler(void)
   //EE RISING/FALLING edge irq	
 	__disable_irq();
   if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR3){
-    
+    /*
 		//readdata() is masked
     EXTI->IMR&=~EXTI_IMR_IM1;
     
@@ -296,23 +300,26 @@ void EXTI3_IRQHandler(void)
     TIM1->CR1&=~TIM_CR1_CEN;
     TIM1->DIER&=~TIM_DIER_CC1IE;
 		TIM1->EGR|=TIM_EGR_UG;
-		
+		*/
     GPIOC->ODR|=GPIO_ODR_ODR10;//laser on
-		
+		/*
 		//SET properties of PWM:
 		//freq of a PWM is set
 		TIM2->ARR=CCR1_IRQ_Data;
 		//duty (power) is set
 		TIM2->CCR2 = CCR1_IRQ_Data-((CCR1_IRQ_Data*(idrdata)) / 0xFF);
 		TIM2->EGR|=TIM_EGR_UG;
+		*/
   }
   else{
     GPIOC->ODR&=~GPIO_ODR_ODR10; //laser off
+		/*
     EXTI->IMR|=EXTI_IMR_IM1; //readdata() start
 		
 		//freq start listening
     TIM1->DIER|=TIM_DIER_CC1IE;
     TIM1->CR1|=TIM_CR1_CEN;	
+		*/
   }
   /* USER CODE END EXTI3_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
