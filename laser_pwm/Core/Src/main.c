@@ -49,9 +49,10 @@
 
 /* USER CODE BEGIN PV */
 uint8_t Fault_i=0;
-uint16_t CCR1_IRQ_Data = 0;
+uint16_t CCR1_IRQ_Data = 10000;
 uint16_t idrdata = 0;
-uint16_t CCR1_IRQ_i = 0;
+
+
 uint16_t display_data = 0;
 uint16_t display_data1 = 0;
 uint32_t t = 0;

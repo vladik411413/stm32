@@ -49,7 +49,6 @@ extern uint8_t Fault_i;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-uint16_t ReadData_D0D7(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -233,8 +232,9 @@ void EXTI1_IRQHandler(void)
   /* USER CODE BEGIN EXTI1_IRQn 0 */
   
   //LATCH RISING edge irq
-  
-  idrdata = ReadData_D0D7();
+
+  idrdata =(uint16_t)(((GPIOB->IDR)&0xFF00)/0x100);
+	if(idrdata == 0xFF) idrdata = 0xFD;
   
   /* USER CODE END EXTI1_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_1) != RESET)
@@ -259,11 +259,8 @@ void EXTI2_IRQHandler(void)
   //EM RISING/FALLING edge irq
   
   if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR2){  
-    if(idrdata&&CCR1_IRQ_Data){
-    TIM2->EGR|=TIM_EGR_UG;
     TIM2->CCER|=TIM_CCER_CC2E;
     TIM2->CR1|=TIM_CR1_CEN;
-    }
   }
   else{
 		TIM2->CR1&=~TIM_CR1_CEN;
@@ -289,45 +286,33 @@ void EXTI3_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI3_IRQn 0 */
   //EE RISING/FALLING edge irq	
+	__disable_irq();
   if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR3){
     
-    NVIC_DisableIRQ(EXTI1_IRQn); //LATCH IRQ DISABLE
+		//readdata() is masked
     EXTI->IMR&=~EXTI_IMR_IM1;
     
+		//do not read CCR1_IRQ_Data (do not read freq with TIM 1)
     TIM1->CR1&=~TIM_CR1_CEN;
     TIM1->DIER&=~TIM_DIER_CC1IE;
-    TIM1->CCER&=~TIM_CCER_CC1E;
+		TIM1->EGR|=TIM_EGR_UG;
 		
-		if(idrdata&&CCR1_IRQ_Data){
     GPIOC->ODR|=GPIO_ODR_ODR10;//laser on
-    TIM2->ARR=CCR1_IRQ_Data;
-		switch(idrdata){
-			case 0xFF:
-				TIM2->CCR2=0x2U;
-			break;
-			default:
-				TIM2->CCR2 = CCR1_IRQ_Data-((CCR1_IRQ_Data*(idrdata)) / 0xFF);
-			break;
-		}
-    TIM2->EGR|=TIM_EGR_UG;
 		
-    }
+		//SET properties of PWM:
+		//freq of a PWM is set
+		TIM2->ARR=CCR1_IRQ_Data;
+		//duty (power) is set
+		TIM2->CCR2 = CCR1_IRQ_Data-((CCR1_IRQ_Data*(idrdata)) / 0xFF);
+		TIM2->EGR|=TIM_EGR_UG;
   }
   else{
-    GPIOC->ODR&=~GPIO_ODR_ODR10;//laser off
-    NVIC_EnableIRQ(EXTI1_IRQn); //LATCH IRQ ENABLE
-    EXTI->IMR|=EXTI_IMR_IM1;
-    
-    TIM1->CCER|=TIM_CCER_CC1E;
-    TIM1->DIER|=TIM_DIER_CC1IE;
-    TIM1->CR1|=TIM_CR1_CEN;
-    
-		TIM2->CR1&=~TIM_CR1_CEN;
-    TIM2->CCER&=~TIM_CCER_CC2E;
-    TIM2->EGR|=TIM_EGR_UG;
+    GPIOC->ODR&=~GPIO_ODR_ODR10; //laser off
+    EXTI->IMR|=EXTI_IMR_IM1; //readdata() start
 		
-		idrdata = 0;
-		CCR1_IRQ_Data = 0;
+		//freq start listening
+    TIM1->DIER|=TIM_DIER_CC1IE;
+    TIM1->CR1|=TIM_CR1_CEN;	
   }
   /* USER CODE END EXTI3_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
@@ -338,7 +323,7 @@ void EXTI3_IRQHandler(void)
     /* USER CODE END LL_EXTI_LINE_3 */
   }
   /* USER CODE BEGIN EXTI3_IRQn 1 */
-
+	__enable_irq();
   /* USER CODE END EXTI3_IRQn 1 */
 }
 
@@ -357,9 +342,4 @@ void TIM1_CC_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-uint16_t ReadData_D0D7(void){
-  uint32_t data;
-  data =((GPIOB->IDR)& 0xFF00) / 0x100;
-  return ((uint16_t)data);
-}
 /* USER CODE END 1 */
