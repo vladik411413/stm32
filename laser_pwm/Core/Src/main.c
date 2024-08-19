@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "spi.h"
 #include "tim.h"
 #include "gpio.h"
@@ -37,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define DMA_CH DMA1_Channel4
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -51,7 +52,6 @@
 uint8_t Fault_i=0;
 uint16_t CCR1_IRQ_Data = 10000;
 uint16_t idrdata = 0;
-
 
 uint16_t display_data = 0;
 uint16_t display_data1 = 0;
@@ -106,26 +106,31 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+	
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_TIM2_Init();
-//  MX_SPI1_Init();
+  MX_SPI1_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  
-  
+
+	//DMA CFG
+	CLEAR_BIT(DMA_CH->CCR, DMA_CCR_EN); //disable DMA channel
+	/////////////////////////////////////
+	WRITE_REG(DMA_CH->CPAR,(uint32_t)&(TIM1->CCR1)); //peripherial address (from)
+	WRITE_REG(DMA_CH->CMAR, (uint32_t)&(CCR1_IRQ_Data)); //mem address (to)
+	MODIFY_REG(DMA_CH->CNDTR, DMA_CNDTR_NDT, 1U);
+	SET_BIT(TIM1->DIER,TIM_DIER_CC1DE); //enable DMA request
+	//////////////////////////////////////
+	SET_BIT(DMA_CH->CCR,DMA_CCR_EN); //enable DMA channel
+	  
   //FREQ capture
-  LL_mDelay(1000);
-  NVIC_EnableIRQ(TIM1_CC_IRQn);
-  NVIC_SetPriority(TIM1_CC_IRQn,3);
   TIM1->CCER|=TIM_CCER_CC1E;
-  TIM1->DIER|=TIM_DIER_CC1IE;
   TIM1->CR1|=TIM_CR1_CEN;
   //
-  
 
 	NVIC_EnableIRQ(EXTI1_IRQn); //LATCH
   NVIC_SetPriority(EXTI1_IRQn,2);

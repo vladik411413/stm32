@@ -292,34 +292,14 @@ void EXTI3_IRQHandler(void)
   //EE RISING/FALLING edge irq	
 	__disable_irq();
   if((EM_GPIO_Port->IDR) & GPIO_IDR_IDR3){
-    /*
-		//readdata() is masked
-    EXTI->IMR&=~EXTI_IMR_IM1;
-    
-		//do not read CCR1_IRQ_Data (do not read freq with TIM 1)
-    TIM1->CR1&=~TIM_CR1_CEN;
-    TIM1->DIER&=~TIM_DIER_CC1IE;
-		TIM1->EGR|=TIM_EGR_UG;
-		*/
+
     GPIOC->ODR|=GPIO_ODR_ODR10;//laser on
-		/*
-		//SET properties of PWM:
-		//freq of a PWM is set
-		TIM2->ARR=CCR1_IRQ_Data;
-		//duty (power) is set
-		TIM2->CCR2 = CCR1_IRQ_Data-((CCR1_IRQ_Data*(idrdata)) / 0xFF);
-		TIM2->EGR|=TIM_EGR_UG;
-		*/
+
   }
   else{
-    GPIOC->ODR&=~GPIO_ODR_ODR10; //laser off
-		/*
-    EXTI->IMR|=EXTI_IMR_IM1; //readdata() start
 		
-		//freq start listening
-    TIM1->DIER|=TIM_DIER_CC1IE;
-    TIM1->CR1|=TIM_CR1_CEN;	
-		*/
+    GPIOC->ODR&=~GPIO_ODR_ODR10; //laser off
+
   }
   /* USER CODE END EXTI3_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
@@ -332,20 +312,6 @@ void EXTI3_IRQHandler(void)
   /* USER CODE BEGIN EXTI3_IRQn 1 */
 	__enable_irq();
   /* USER CODE END EXTI3_IRQn 1 */
-}
-
-/**
-  * @brief This function handles TIM1 capture compare interrupt.
-  */
-void TIM1_CC_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM1_CC_IRQn 0 */
-  CCR1_IRQ_Data = TIM1->CCR1;
-  TIM1->EGR|=TIM_EGR_UG;
-  /* USER CODE END TIM1_CC_IRQn 0 */
-  /* USER CODE BEGIN TIM1_CC_IRQn 1 */
-  TIM1->SR&=~TIM_SR_CC1IF;  
-  /* USER CODE END TIM1_CC_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
